@@ -60,6 +60,11 @@ img {
 .dropdown-content {
     display: none;
     position: absolute;
+    /* Place the dropdown content below the trigger.  On my MBP,
+       in Chrome, this happens with or without the next two lines
+       but in Safari, both are necessary for correct placement. */
+    left: 0%;
+    top: 100%;
     background-color: #f9f9f9;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
