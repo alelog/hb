@@ -15,12 +15,14 @@ img {
 
 /* === HEADER & FOOTER === */
 
+/* Style the header */
 #header {
     background-color: #f1f1f1;
     padding: 20px;
     text-align: center;
 }
 
+/* Style the footer */
 #footer {
     background-color: #f1f1f1;
     padding: 10px;
@@ -30,7 +32,7 @@ img {
 
 /* === TOP NAVIGATION === */
 
-/* Style the bar */
+/* Style the top navigation bar */
 #topnav {
     background-color: #333;
 }

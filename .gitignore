@@ -1,0 +1,25 @@
+# -*- mode: gitignore; -*-
+.DS_Store
+Icon*
+
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# Org-mode
+.org-id-locations
+*_archive
+
+# directory configuration
+.dir-locals.el
+
+# Temp files
+util/bak
+util/*.txt
+util/*.html
+util/*.csv
