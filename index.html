@@ -7,13 +7,12 @@
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
-    var sharedElts = ["#header", "#topnav", "#footer"];
+    var placeholders = ["#header", "#topnav", "#footer"];
     $(function() {  // Call this from DOM's .ready()
-        for (var i = 0; i < sharedElts.length; i++) {
-            // First use of sharedElts[i] refers to placeholders on this page
-            // Second use (after load.html) refers to elements of load.html
-            // Reusing the names doesn't appear to create conflicts
-            $(sharedElts[i]).load("load.html " + sharedElts[i]);
+        for (var i = 0; i < placeholders.length; i++) {
+            // Replace placeholders on this page with matching shared
+            // elements in load.html
+            $(placeholders[i]).load("load.html " + placeholders[i] + "-shared");
         }
     });
 </script>
