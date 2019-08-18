@@ -6,16 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" type="text/css" href="style.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-    var placeholders = ["#header", "#topnav", "#footer"];
-    $(function() {  // Call this from DOM's .ready()
-        for (var i = 0; i < placeholders.length; i++) {
-            // Replace placeholders on this page with matching shared
-            // elements in load.html
-            $(placeholders[i]).load("load.html " + placeholders[i] + "-shared");
-        }
-    });
-</script>
+<script src="scripts/shared-elts.js"></script>
 </head>
 <body>
 <noscript>
