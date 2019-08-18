@@ -12,6 +12,10 @@ img {
     float: right;
 }
 
+#topnav a.disabled {
+    pointer-events: none;  /* No effect from changing cursor value */
+}
+
 
 /* === HEADER & FOOTER === */
 
