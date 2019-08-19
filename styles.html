@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Alexey Loginov</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/x2js/1.2.0/xml2json.min.js"></script>
+<script src="scripts/shared-elts.js"></script>
+<script src="scripts/beer-styles.js"></script>
+</head>
+<body>
+<noscript>
+  <h1>Please enable Javascript!</h1>
+</noscript>
+
+
+<!-- Header placeholder -->
+<div id="header"></div>
+
+<!-- Top navigation bar placeholder -->
+<div id="topnav"></div>
+
+<div class="row">
+  <div class="column main">
+
+
+    <h2>Filter <a href="https://www.bjcp.org/stylecenter.php">
+      BJCP Beer Styles</a> by Feature (Tag)</h2>
+    <p>To see a list of styles, make a selection in one of the
+      drop-down lists.  To clear any selection, click that value
+      again</p>
+
+    <div id="filter-group"></div>
+
+    <ul id="filter-results"></ul>
+  </div>
+  <div class="column right">
+    <h2>Search <a href="https://www.bjcp.org/stylecenter.php">
+      Styles</a> by Name</h2>
+    <p>To see the full list, click in the search box and press
+      up or down arrow keys on a computer or press space on a phone</p>
+
+    <label for="bsc-search">Search: </label>
+    <input id="bsc-search">
+  </div>
+</div>
+
+<!-- Footer placeholder -->
+<div id="footer"></div>
+
+</body>
+</html>
