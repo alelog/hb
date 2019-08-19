@@ -12,6 +12,16 @@ img {
     float: right;
 }
 
+table {
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 5px 10px 5px 10px;
+    text-align: left;
+}
+
 #topnav a.disabled {
     pointer-events: none;  /* No effect from changing cursor value */
 }
