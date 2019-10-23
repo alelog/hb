@@ -32,6 +32,18 @@ th, td {
 /* Style the header */
 #header {
     background-color: #f1f1f1;
+    /* Can't set the opacity of a background.  Workaround: start with another
+       "image": a gradient from white to white with opacity 0.4.
+       For wide-enough screens, let the real image cover part of the screen
+       and repeat left-to-right.  See the bottom for updated background-size
+       for narrow screens.
+   */
+    background-image: linear-gradient(rgba(255,255,255,.4), rgba(255,255,255,.4)),
+                      url(images/chc.jpg);
+    background-repeat: no-repeat, repeat-x;
+    background-size: cover, 40%;
+    background-position: center, center -30px;
+
     padding: 20px;
     text-align: center;
 }
@@ -149,9 +161,54 @@ th, td {
     clear: both;
 }
 
-/* Responsive layout: stack the two columns on narrow screens */
-@media (max-width: 600px) {
+/* Responsive layout for narrow screens */
+@media only screen and (max-width: 600px) {
+    /* Stack the two columns */
     .column.right, .column.main {
         width: 100%;
+    }
+}
+
+/* Fine-tune background-image size & position */
+@media only screen and (max-width: 360px) {
+    #header {  /* Make background image fill #header on tiny screens */
+        background-size: cover;
+        background-position: center, center -5px;
+    }
+}
+@media only screen and (min-width: 361px) and (max-width: 600px) {
+    #header {
+        background-size: cover, 70%;
+        background-position: center, center -25px;
+    }
+}
+@media only screen and (min-width: 601px) and (max-width: 900px) {
+    #header {
+        background-size: cover, 50%;
+        background-position: center, center -33px;
+    }
+}
+@media only screen and (min-width: 901px) and (max-width: 1400px) {
+    #header {
+        background-size: cover, 30%;
+        background-position: center, center -30px;
+    }
+}
+@media only screen and (min-width: 1401px) and (max-width: 2000px) {
+    #header {
+        background-size: cover, 20%;
+        background-position: center, center -25px;
+    }
+}
+@media only screen and (min-width: 2001px) and (max-width: 2800px) {
+    #header {
+        background-size: cover, 15%;
+        background-position: center, center -30px;
+    }
+}
+@media only screen and (min-width: 2801px) {
+    #header {
+        background-size: cover, 10%;
+        background-position: center, center -20px;
     }
 }

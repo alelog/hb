@@ -18,8 +18,15 @@
 </noscript>
 
 
-<!-- Header placeholder -->
-<div id="header"></div>
+<!-- Header placeholder.
+     Override the default background image from style.css.  Chrome's
+     dark mode overrides the override in a style tag above but not here! -->
+<div id="header"
+     style="background-image: linear-gradient(rgba(255,255,255,.2),
+                                              rgba(255,255,255,.2)),
+                              url(images/flight.jpg);
+            background-position: center, center;">
+</div>
 
 <!-- Top navigation bar placeholder -->
 <div id="topnav"></div>
