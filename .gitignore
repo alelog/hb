@@ -23,3 +23,8 @@ util/bak
 util/*.txt
 util/*.html
 util/*.csv
+
+# Dev. artifacts
+.eslintrc.json
+.vscode
+package.json
