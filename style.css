@@ -22,10 +22,6 @@ th, td {
     text-align: left;
 }
 
-#topnav a.disabled {
-    pointer-events: none;  /* No effect from changing cursor value */
-}
-
 
 /* === HEADER & FOOTER === */
 
@@ -71,6 +67,10 @@ th, td {
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+}
+
+#topnav a.disabled {
+    pointer-events: none;  /* No effect from changing cursor value */
 }
 
 #filter-group button {
