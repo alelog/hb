@@ -58,6 +58,10 @@ th, td {
     text-align: center;
 }
 
+#footer p {
+    margin: 0.33em;
+}
+
 
 /* === TOP NAVIGATION & FILTERS === */
 
