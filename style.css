@@ -107,7 +107,12 @@ th, td {
 
 /* Style dropdown content (hidden by default) */
 .dropdown-content {
-    display: none;
+    /* Start with the content hidden */
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 1s;
+    -webkit-transition: max-height 1s;
+
     position: absolute;
     /* Place the dropdown content below the trigger.  On my MBP,
        in Chrome, this happens with or without the next two lines
@@ -137,7 +142,9 @@ th, td {
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
-    display: inline-block;
+    /* Can't transition to height: auto, so use a large max-height; this means
+       that the duration will be shorter and "ease" only works at the top */
+    max-height: 1000px;
 }
 
 /* Style the selected filter (feature and detail) */
