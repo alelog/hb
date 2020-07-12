@@ -95,7 +95,8 @@ function makeFilterGroup(beerTagDescs) {
 function configureAutocomplete(beerSubCats) {
     $('#bsc-search').autocomplete({
         source: function(request, response) {
-            var matcher = new RegExp($.ui.autocomplete.escapeRegex(request.term), 'i');
+            var pattern = '\\b' + $.ui.autocomplete.escapeRegex(request.term);
+            var matcher = new RegExp(pattern, 'i');
             response($.grep(beerSubCats, function(item) {
                 // Filter by the selected year
                 return matcher.test(item.name);
