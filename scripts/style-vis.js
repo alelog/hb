@@ -21,7 +21,7 @@ function StyleVisualization(beerStyles, parent) {
             .classed('tooltip', true)
             .style('position', 'absolute')
             .style('opacity', 0)
-            .style('z-index', -1);
+            .style('pointer-events', 'none');
     }
 
     function svgDims(margins, chartHeight) {
@@ -78,13 +78,10 @@ function StyleVisualization(beerStyles, parent) {
             .on('mouseover', function (e, d) {
                 tooltip.text(d.name)
                     .style('opacity', 1)
-                    .style('z-index', 100)  // Go on top
                     .style('left', e.pageX + 'px')
                     .style('top', (e.pageY - 25) + 'px');
             })
-            .on('mouseout', function () {  // Go below to avoid catching hover
-                tooltip.style('opacity', 0).style('z-index', -1);
-            });
+            .on('mouseout', function () { tooltip.style('opacity', 0); });
         chartGroup.append('g')
             .classed('x axis', true)
             .attr('transform', 'translate(0,'+sd.chartHeight+')')
