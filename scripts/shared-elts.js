@@ -1,8 +1,8 @@
-var placeholders = ['#topnav', '#footer'];
+const PLACEHOLDERS = ['#topnav', '#footer'];
 $(function() {  // Call this from DOM's .ready()
-    for (var i = 0; i < placeholders.length; i++) {
+    for (let i = 0; i < PLACEHOLDERS.length; i++) {
         // Replace placeholders on this page with matching shared
         // elements in load.html
-        $(placeholders[i]).load('load.html ' + placeholders[i] + '-shared');
+        $(PLACEHOLDERS[i]).load('load.html ' + PLACEHOLDERS[i] + '-shared');
     }
 });

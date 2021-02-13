@@ -25,14 +25,14 @@
    mishandling headers for most of the URLs (it worked fine under Safari).
 */
 
-var DEBUG = ['localhost', '127.0.0.1', ''].indexOf(location.hostname) >= 0;
-var xmlURL = 'https://cdn.jsdelivr.net/gh/gthmb/bjcp-2015-json/xml/styleguide-2015.xml';
-var bjcpBaseURL = 'http://www.bjcp.org/style/2015/';
+const DEBUG = ['localhost', '127.0.0.1', ''].indexOf(location.hostname) >= 0;
+const XML_URL = 'https://cdn.jsdelivr.net/gh/gthmb/bjcp-2015-json/xml/styleguide-2015.xml';
+const BJCP_BASE_URL = 'http://www.bjcp.org/style/2015/';
 
 /* Convert style (its name) to ID; e.g.:
    "Specialty IPA: Rye IPA" --> "specialty-ipa-rye-ipa" */
 function styleId(style) {
-    var res = style.name.toLowerCase()
+    let res = style.name.toLowerCase()
         .replace(/[^a-z0-9- ]+/g, '')  // Keep alphanumerics, dashes, spaces
         .replace(/ /g, '-');  // Replace spaces with dashes
     return res;
@@ -40,20 +40,20 @@ function styleId(style) {
 
 /* Ex: http://www.bjcp.org/style/2015/21/21B/specialty-ipa-rye-ipa/ */
 function styleURL(style) {
-    var subCatId = style._id.split('-', 1)[0];  // Drop '-' and the rest
-    var catId = subCatId.match(/\d+/)[0];
+    let subCatId = style._id.split('-', 1)[0];  // Drop '-' and the rest
+    let catId = subCatId.match(/\d+/)[0];
     if (subCatId == catId) {
         if (DEBUG) console.error("Category ID == subcategory ID: " + catId);
         // Workaround for https://github.com/seth-k/BJCP-styles-XML/issues/7
         subCatId += 'A';  // Hardcode handling for Historical Beer
     }
 
-    return bjcpBaseURL + catId + '/' + subCatId + '/' + styleId(style) + '/';
+    return BJCP_BASE_URL + catId + '/' + subCatId + '/' + styleId(style) + '/';
 }
 
 /* Ex: "Color", "pale-color" --> "Pale" */
 function tagText(category, tag) {
-    var tagWords = tag.split('-');
+    let tagWords = tag.split('-');
     if (['Strength', 'Color', 'Style Family', 'Era'].indexOf(category) >= 0)
         tagWords.pop();  // Skip the last word (strength, color, family, style)
     tagWords = tagWords.map(function(word) {
@@ -65,11 +65,11 @@ function tagText(category, tag) {
 
 /* Create a filter group using beer tag descriptions */
 function makeFilterGroup(beerTagDescs) {
-    var $fgrp = $('#filter-group');
-    for (var i = 0; i < beerTagDescs.length; i++) {
-        var tagCat = beerTagDescs[i].Category;
-        var $dcont = $('<div>').addClass('dropdown-content');
-        var $ddown = $('<div>')
+    let $fgrp = $('#filter-group');
+    for (let i = 0; i < beerTagDescs.length; i++) {
+        let tagCat = beerTagDescs[i].Category;
+        let $dcont = $('<div>').addClass('dropdown-content');
+        let $ddown = $('<div>')
             .addClass('dropdown')
             .append($('<button>')
                     .prop('type', 'button')
@@ -78,8 +78,8 @@ function makeFilterGroup(beerTagDescs) {
             .append($dcont)
             .appendTo($fgrp);
 
-        for (var j = 0; j < beerTagDescs[i].Tags.length; j++) {
-            var tagVal = beerTagDescs[i].Tags[j].Tag;
+        for (let j = 0; j < beerTagDescs[i].Tags.length; j++) {
+            let tagVal = beerTagDescs[i].Tags[j].Tag;
             $dcont.append($('<button>')
                           .prop('type', 'button')
                           .addClass('filter-value')
@@ -95,8 +95,8 @@ function makeFilterGroup(beerTagDescs) {
 function configureAutocomplete(beerSubCats) {
     $('#bsc-search').autocomplete({
         source: function(request, response) {
-            var pattern = '\\b' + $.ui.autocomplete.escapeRegex(request.term);
-            var matcher = new RegExp(pattern, 'i');
+            let pattern = '\\b' + $.ui.autocomplete.escapeRegex(request.term);
+            let matcher = new RegExp(pattern, 'i');
             response($.grep(beerSubCats, function(item) {
                 // Filter by the selected year
                 return matcher.test(item.name);
@@ -115,13 +115,13 @@ function configureAutocomplete(beerSubCats) {
 
             // Open BJCP's page for this style in a new tab (& switch to it)
             // Assign to location.href to open in the current tab, instead
-            var win = window.open(styleURL(ui.item), '_blank');
+            let win = window.open(styleURL(ui.item), '_blank');
             win.focus();
         }
     }).autocomplete( 'instance' )._renderItem = function(ul, item) {
-        var statsStr = '';
+        let statsStr = '';
         try {
-            var ist = item.stats;
+            let ist = item.stats;
             statsStr += ist.abv.low + '-' + ist.abv.high + '% ABV; ';
             statsStr += ist.ibu.low + '-' + ist.ibu.high + ' IBU; ';
             statsStr += ist.srm.low + '-' + ist.srm.high + 'L&#176; SRM';
@@ -136,14 +136,14 @@ function configureAutocomplete(beerSubCats) {
 }
 
 // Tracks the current filter selections {feature: tag, ...}
-var curFilters = {};
+let curFilters = {};
 
 function updateFilter() {
     // Get the value for filter (in this node) and the filter
     // (in grandparent's first element child)
-    var value = this.value;
-    var filterBtn = this.parentNode.parentNode.firstElementChild;
-    var filter = filterBtn.textContent;
+    let value = this.value;
+    let filterBtn = this.parentNode.parentNode.firstElementChild;
+    let filter = filterBtn.textContent;
 
     // Clear selected style in buttons of this filter's dropdown-content
     // (in case there was a selection in this filter before)
@@ -163,10 +163,10 @@ function updateFilter() {
     }
 
     // Recompute the array of beer styles matching the filters from scratch
-    var matchingStyles = $.grep(beerSubCats, function(item) {
+    let matchingStyles = $.grep(beerSubCats, function(item) {
         // Check item's entries against every filter's selection
         if (!item.tags) return false;  // Skip styles w/o tags
-        for (var filter in curFilters) {
+        for (let filter in curFilters) {
             if (item.tags.indexOf(curFilters[filter]) < 0)
                 return false;  // Any match fails: skip style
         }
@@ -174,9 +174,9 @@ function updateFilter() {
     });
 
     // Re-populate the results list with links to plant-detail pages
-    var $frUl = $("#filter-results").empty();
-    for (var i = 0; i < matchingStyles.length; i++) {
-        var $a = $("<a>")
+    let $frUl = $("#filter-results").empty();
+    for (let i = 0; i < matchingStyles.length; i++) {
+        let $a = $("<a>")
             .prop("href", styleURL(matchingStyles[i]))
             .prop('target', '_blank')  // open link in new tab
             .text(matchingStyles[i].name);
@@ -186,31 +186,31 @@ function updateFilter() {
 
 // Beer-subcategory data and tag descriptions collected from the XML file
 // Use arrays throughout, to preserve the order (of styles, tags, etc.)
-var beerSubCats = [];
-var beerTagDescs = [];
+let beerSubCats = [];
+let beerTagDescs = [];
 
 $(function() {  // Call this from DOM's .ready()
     // Read in the BJCP XML file
-    $.get(xmlURL, function(xml) {
+    $.get(XML_URL, function(xml) {
         // Convert XML to JSON to allow grepping, etc.
-        var x2js = new X2JS();  // Couldn't get XML filtering working
-        var jsonObj = x2js.xml2json(xml);
-        var beerStyles = jsonObj.styleguide.class[0];
+        let x2js = new X2JS();  // Couldn't get XML filtering working
+        let jsonObj = x2js.xml2json(xml);
+        let beerStyles = jsonObj.styleguide.class[0];
 
         // Save the tag descriptions to produce a legend and automate
         // the generation of filters
         try {
-            var bis = beerStyles.introduction.section;
-            for (var i = 0; i < bis.length; i++) {
+            let bis = beerStyles.introduction.section;
+            for (let i = 0; i < bis.length; i++) {
                 if ('sectiontitle' in bis[i] &&
                     bis[i].sectiontitle == 'Style Tag Reference') {
-                    var tt = bis[i].paragraph[1].table.tr;
+                    let tt = bis[i].paragraph[1].table.tr;
                     if (DEBUG) console.log(tt);
-                    var j = 1;  // Skip over the "heading"
+                    let j = 1;  // Skip over the "heading"
                     while (j < tt.length) {
                         if ('th' in tt[j]) {
-                            var category = tt[j].th.__text;
-                            var tags = [];
+                            let category = tt[j].th.__text;
+                            let tags = [];
                             for (j++; j < tt.length && 'td' in tt[j]; j++) {
                                 tags.push({'Tag': tt[j].td[1],
                                            'Meaning': tt[j].td[2]});
