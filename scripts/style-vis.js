@@ -76,10 +76,13 @@ function StyleVisualization(beerStyles, parent) {
             .attr('x', function (d) { return x(d[stat].low); })
             .attr('y', function (d) { return y(d.name); } )
             .on('mouseover', function (e, d) {
+                let svgBox = svg.node().getBoundingClientRect();
                 tooltip.text(d.name)
                     .style('opacity', 1)
-                    .style('left', e.pageX + 'px')
-                    .style('top', (e.pageY - 25) + 'px');
+                    // e.page[X/Y] give the coordinates of mouseover, but I
+                    // want more precise placement relative to rectangle
+                    .style('left', (window.pageXOffset + svgBox.left + margin.left + x(d[stat].low)) + 'px')
+                    .style('top', (window.pageYOffset + svgBox.top + margin.top + y(d.name)) + 'px');
             })
             .on('mouseout', function () { tooltip.style('opacity', 0); });
         chartGroup.append('g')
