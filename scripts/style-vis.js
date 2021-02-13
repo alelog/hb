@@ -15,6 +15,15 @@ function StyleVisualization(beerStyles, parent) {
         return acc;
     }, []);
 
+    let tooltip = d3.select('body').selectAll('div.tooltip');
+    if (tooltip.empty()) {  // Keep a single copy
+        tooltip = d3.select('body').append('div')
+            .classed('tooltip', true)
+            .style('position', 'absolute')
+            .style('opacity', 0)
+            .style('z-index', -1);
+    }
+
     function svgDims(margins, chartHeight) {
         const MIN_WIDTH = 300;
         const W2H_RATIO = 1.6;
@@ -65,7 +74,17 @@ function StyleVisualization(beerStyles, parent) {
             .attr('height', y.bandwidth())
             .attr('fill', function (d, i) { return rainbow(i); })
             .attr('x', function (d) { return x(d[stat].low); })
-            .attr('y', function (d) { return y(d.name); } );
+            .attr('y', function (d) { return y(d.name); } )
+            .on('mouseover', function (e, d) {
+                tooltip.text(d.name)
+                    .style('opacity', 1)
+                    .style('z-index', 100)  // Go on top
+                    .style('left', e.pageX + 'px')
+                    .style('top', (e.pageY - 25) + 'px');
+            })
+            .on('mouseout', function () {  // Go below to avoid catching hover
+                tooltip.style('opacity', 0).style('z-index', -1);
+            });
         chartGroup.append('g')
             .classed('x axis', true)
             .attr('transform', 'translate(0,'+sd.chartHeight+')')
