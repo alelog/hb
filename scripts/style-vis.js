@@ -49,9 +49,10 @@ function StyleVisualization(beerStyles, parent) {
         let y = d3.scaleBand()
             .domain(styles.map(function (d) { return d.name; }))
             // Don't invert, so style order is followed top to bottom
-            .range([0, sd.chartHeight]);
+            .range([0, sd.chartHeight])
+            .paddingInner(0.1);
         let xAxis = d3.axisBottom(x);
-        let yAxis = d3.axisLeft(y);
+        let yAxis = d3.axisLeft(y).tickSizeOuter(0);
         let rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0, styles.length]);
 
         let chartGroup = svg.append('g')
