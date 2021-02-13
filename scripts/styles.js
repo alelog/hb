@@ -205,7 +205,7 @@ $(function() {  // Call this from DOM's .ready()
                 if ('sectiontitle' in bis[i] &&
                     bis[i].sectiontitle == 'Style Tag Reference') {
                     var tt = bis[i].paragraph[1].table.tr;
-                    console.log(tt);
+                    if (DEBUG) console.log(tt);
                     var j = 1;  // Skip over the "heading"
                     while (j < tt.length) {
                         if ('th' in tt[j]) {
