@@ -182,6 +182,14 @@ function updateFilter() {
             .text(matchingStyles[i].name);
         $("<li>").append($a).appendTo($frUl);
     }
+
+    if (matchingStyles.length) {
+        // Create visualizalizations of styles' vitals
+        let parent = $('div.column.main')[0];
+        let styleVis = new StyleVisualization(matchingStyles, parent);
+        d3.select(window).on("resize", function () { styleVis.singleRange('abv'); });
+        styleVis.singleRange('abv');
+    }
 }
 
 // Beer-subcategory data and tag descriptions collected from the XML file
