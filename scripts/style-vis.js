@@ -38,7 +38,7 @@ function StyleVisualization(beerStyles, parent) {
         // Remove old name-stat SVG, when resizing or updating a filter
         d3.select(parent).selectAll('svg.name-' + stat).remove();
         let svg = d3.select(parent).append('svg')
-            .attr('class', 'name-' + stat)  // Mark as name-stat SVG
+            .classed('name-' + stat, true)  // Mark as name-stat SVG
             .attr('width', sd.svgWidth)
             .attr('height', sd.svgHeight);
 
@@ -67,9 +67,9 @@ function StyleVisualization(beerStyles, parent) {
             .attr('x', function (d) { return x(d[stat].low); })
             .attr('y', function (d) { return y(d.name); } );
         chartGroup.append('g')
-            .attr('class', 'x axis')
+            .classed('x axis', true)
             .attr('transform', 'translate(0,'+sd.chartHeight+')')
             .call(xAxis);  // TODO: consider rotating
-        chartGroup.append('g').attr('class', 'y axis').call(yAxis);
+        chartGroup.append('g').classed('y axis', true).call(yAxis);
     }
 }
