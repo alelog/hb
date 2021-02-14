@@ -50,6 +50,13 @@ function StyleVisualization(beerStyles, parent) {
             .classed('name-' + stat, true)  // Mark as name-stat SVG
             .attr('width', sd.svgWidth)
             .attr('height', sd.svgHeight);
+        svg.append('text')  // Add a title centered over x axis
+            .classed('title', true)
+            .style('text-anchor', 'middle')
+            .attr('x', margin.left + sd.chartWidth / 2)
+            .attr('y', margin.top / 2)
+            .attr('font-weight', 'bold')
+            .text(stat.toUpperCase() + ' Ranges of Selected Styles');
 
         let maxStat = d3.max(styles, function (d) { return d[stat].high; });
         let x = d3.scaleLinear()
