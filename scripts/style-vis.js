@@ -98,4 +98,66 @@ function StyleVisualization(beerStyles, parent) {
             .call(xAxis);  // TODO: consider rotating
         chartGroup.append('g').classed('y axis', true).call(yAxis);
     }
+
+    this.doubleRange = function (xStat, yStat) {
+        let margin = {left: 50, right: 50, top: 40, bottom: 40};
+        let sd = svgDims(margin);
+
+        // Remove old yStat-xStat SVG, when resizing or updating a filter
+        d3.select(parent).selectAll('svg.' + yStat + '-' + xStat).remove();
+        let svg = d3.select(parent).append('svg')
+            .classed(yStat + '-' + xStat, true)  // Mark as yStat-xStat SVG
+            .attr('width', sd.svgWidth)
+            .attr('height', sd.svgHeight);
+        svg.append('text')  // Add a title centered over x axis
+            .classed('title', true)
+            .style('text-anchor', 'middle')
+            .attr('x', margin.left + sd.chartWidth / 2)
+            .attr('y', margin.top / 2)
+            .attr('font-weight', 'bold')
+            .text(xStat.toUpperCase() + ' (x) & ' + yStat.toUpperCase() +
+                ' (y) Ranges of Selected Styles');
+
+        let maxXStat = d3.max(styles, function (d) { return d[xStat].high; });
+        let maxYStat = d3.max(styles, function (d) { return d[yStat].high; });
+        let x = d3.scaleLinear()
+            .domain([0, maxXStat])
+            .range([0, sd.chartWidth]);
+        let y = d3.scaleLinear()
+            .domain([0, maxYStat])
+            .range([sd.chartHeight, 0]);
+        let xAxis = d3.axisBottom(x).tickSizeOuter(0);
+        let yAxis = d3.axisLeft(y).tickSizeOuter(0);
+        let rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0, styles.length]);
+
+        let chartGroup = svg.append('g')
+            .attr('transform', 'translate('+margin.left+','+margin.top+')');
+
+        chartGroup.selectAll('rect')
+          .data(styles)
+          .enter().append('rect')  // Can filter after this to drop rectangles
+            .attr('width', function (d) { return x(d[xStat].high) - x(d[xStat].low); })
+            .attr('height', function (d) { return y(d[yStat].low) - y(d[yStat].high); })
+            .attr('fill', function (d, i) { return rainbow(i); })
+            .attr('stroke', 'black')    // Draw a border around the boxes,
+            .attr('stroke-width', '2')  // so they don't blend together
+            .attr('x', function (d) { return x(d[xStat].low); })
+            .attr('y', function (d) { return y(d[yStat].high); })
+            .on('mouseover', function (e, d) {
+                // TODO: Get the hovered rectangle to pop out or go on top?
+                let svgBox = svg.node().getBoundingClientRect();
+                tooltip.text(d.name)
+                    .style('opacity', 1)
+                    // e.page[X/Y] give the coordinates of mouseover, but I
+                    // want more precise placement relative to rectangle
+                    .style('left', (window.pageXOffset + svgBox.left + margin.left + x(d[xStat].low) + 3) + 'px')
+                    .style('top', (window.pageYOffset + svgBox.top + margin.top + y(d[yStat].high)) + 'px');
+            })
+            .on('mouseout', function () { tooltip.style('opacity', 0); });
+        chartGroup.append('g')
+            .classed('x axis', true)
+            .attr('transform', 'translate(0,'+sd.chartHeight+')')
+            .call(xAxis);  // TODO: consider rotating
+        chartGroup.append('g').classed('y axis', true).call(yAxis);
+    }
 }

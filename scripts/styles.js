@@ -189,6 +189,8 @@ function updateFilter() {
         let styleVis = new StyleVisualization(matchingStyles, parent);
         d3.select(window).on("resize", function () { styleVis.singleRange('abv'); });
         styleVis.singleRange('abv');
+        d3.select(window).on("resize", function () { styleVis.doubleRange('abv', 'ibu'); });
+        styleVis.doubleRange('abv', 'ibu');
     }
 }
 
