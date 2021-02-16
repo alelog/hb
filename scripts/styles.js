@@ -181,6 +181,7 @@ function updateFilter() {
             .prop('target', '_blank')  // open link in new tab
             .text(matchingStyles[i].name);
         $("<li>").append($a).appendTo($frUl);
+        matchingStyles[i].link = $a[0];  // Save the link with style info
     }
 
     if (matchingStyles.length) {

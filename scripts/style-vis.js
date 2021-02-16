@@ -3,8 +3,8 @@ function StyleVisualization(beerStyles, parent) {
         // Styles w/o stats or with exceptions in stats are high-level
         // descriptions; full details appear in subsequent entries
         if ('stats' in bs && !('exceptions' in bs.stats)) {
-            // If name has ': ', take what follows
-            let stats = {name: bs.name.split(/:\s+/).pop()};
+            // If name has ': ', take what follows; also save the link
+            let stats = {name: bs.name.split(/:\s+/).pop(), link: bs.link};
             for (s in bs.stats) {  // Save stats: og, fg, ibu, srm, abv
                 // Convert strings to numbers; arithmetic on strings works,
                 // but comparisons don't, e.g.: "9.5" > "14.0"
@@ -76,7 +76,11 @@ function StyleVisualization(beerStyles, parent) {
 
         chartGroup.selectAll('rect')
           .data(styles)
-          .enter().append('rect')  // Can filter after this to drop rectangles
+          .enter()
+          .append('a')  // Link rectangles to BJCP style descriptions
+            .attr('href', function (d) { return d.link.href; })
+            .attr('target', '_blank')  // Open in new tabs
+          .append('rect')  // Can filter after this to drop rectangles
             .attr('width', function (d) { return x(d[stat].high) - x(d[stat].low); })
             .attr('height', y.bandwidth())
             .attr('fill', function (d, i) { return rainbow(i); })
@@ -135,7 +139,11 @@ function StyleVisualization(beerStyles, parent) {
 
         chartGroup.selectAll('rect')
           .data(styles)
-          .enter().append('rect')  // Can filter after this to drop rectangles
+          .enter()
+          .append('a')  // Link rectangles to BJCP style descriptions
+            .attr('href', function (d) { return d.link.href; })
+            .attr('target', '_blank')  // Open in new tabs
+          .append('rect')  // Can filter after this to drop rectangles
             .attr('width', function (d) { return x(d[xStat].high) - x(d[xStat].low); })
             .attr('height', function (d) { return y(d[yStat].low) - y(d[yStat].high); })
             .attr('fill', function (d, i) { return rainbow(i); })
