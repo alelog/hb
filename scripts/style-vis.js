@@ -69,7 +69,7 @@ function StyleVisualization(beerStyles, parent) {
             .paddingInner(0.1);
         let xAxis = d3.axisBottom(x);
         let yAxis = d3.axisLeft(y).tickSizeOuter(0);
-        let rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0, styles.length]);
+        let rainbow = d3.scaleSequential([0, styles.length], d3.interpolateRainbow);
 
         let chartGroup = svg.append('g')
             .attr('transform', 'translate('+margin.left+','+margin.top+')');
@@ -87,6 +87,8 @@ function StyleVisualization(beerStyles, parent) {
             .attr('x', function (d) { return x(d[stat].low); })
             .attr('y', function (d) { return y(d.name); } )
             .on('mouseover', function (e, d) {
+                let clr = d3.rgb(d3.select(this).style('fill'));
+                d3.select(this).attr('fill', clr.brighter(2));
                 let svgBox = svg.node().getBoundingClientRect();
                 tooltip.text(d.name)
                     .style('opacity', 1)
@@ -95,7 +97,11 @@ function StyleVisualization(beerStyles, parent) {
                     .style('left', (window.pageXOffset + svgBox.left + margin.left + x(d[stat].low)) + 'px')
                     .style('top', (window.pageYOffset + svgBox.top + margin.top + y(d.name)) + 'px');
             })
-            .on('mouseout', function () { tooltip.style('opacity', 0); });
+            .on('mouseout', function (e, d) {
+                let i = styles.findIndex(function (elt) { return elt.name === d.name; });
+                d3.select(this).attr('fill', rainbow(i));
+                tooltip.style('opacity', 0);
+            });
         chartGroup.append('g')
             .classed('x axis', true)
             .attr('transform', 'translate(0,'+sd.chartHeight+')')
@@ -132,7 +138,7 @@ function StyleVisualization(beerStyles, parent) {
             .range([sd.chartHeight, 0]);
         let xAxis = d3.axisBottom(x).tickSizeOuter(0);
         let yAxis = d3.axisLeft(y).tickSizeOuter(0);
-        let rainbow = d3.scaleSequential(d3.interpolateRainbow).domain([0, styles.length]);
+        let rainbow = d3.scaleSequential([0, styles.length], d3.interpolateRainbow);
 
         let chartGroup = svg.append('g')
             .attr('transform', 'translate('+margin.left+','+margin.top+')');
@@ -152,7 +158,9 @@ function StyleVisualization(beerStyles, parent) {
             .attr('x', function (d) { return x(d[xStat].low); })
             .attr('y', function (d) { return y(d[yStat].high); })
             .on('mouseover', function (e, d) {
-                // TODO: Get the hovered rectangle to pop out or go on top?
+                // TODO: Get the hovered rectangle to go on top?
+                let clr = d3.rgb(d3.select(this).style('fill'));
+                d3.select(this).attr('fill', clr.brighter(2));
                 let svgBox = svg.node().getBoundingClientRect();
                 tooltip.text(d.name)
                     .style('opacity', 1)
@@ -161,7 +169,11 @@ function StyleVisualization(beerStyles, parent) {
                     .style('left', (window.pageXOffset + svgBox.left + margin.left + x(d[xStat].low) + 3) + 'px')
                     .style('top', (window.pageYOffset + svgBox.top + margin.top + y(d[yStat].high)) + 'px');
             })
-            .on('mouseout', function () { tooltip.style('opacity', 0); });
+            .on('mouseout', function (e, d) {
+                let i = styles.findIndex(function (elt) { return elt.name === d.name; });
+                d3.select(this).attr('fill', rainbow(i));
+                tooltip.style('opacity', 0);
+            });
         chartGroup.append('g')
             .classed('x axis', true)
             .attr('transform', 'translate(0,'+sd.chartHeight+')')
