@@ -191,7 +191,7 @@ function updateFilter() {
         styleVis.singleRange('abv');
         d3.select(window).on("resize", function () { styleVis.doubleRange('abv', 'ibu'); });
         styleVis.doubleRange('abv', 'ibu');
-    }
+    } else $('div.column.main > svg').remove();
 }
 
 // Beer-subcategory data and tag descriptions collected from the XML file
