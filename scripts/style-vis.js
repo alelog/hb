@@ -76,11 +76,7 @@ function StyleVisualization(beerStyles, parent) {
 
         chartGroup.selectAll('rect')
           .data(styles)
-          .enter()
-          .append('a')  // Link rectangles to BJCP style descriptions
-            .attr('href', function (d) { return d.link.href; })
-            .attr('target', '_blank')  // Open in new tabs
-          .append('rect')  // Can filter after this to drop rectangles
+          .enter().append('rect')  // Can filter after this to drop rectangles
             .attr('width', function (d) { return x(d[stat].high) - x(d[stat].low); })
             .attr('height', y.bandwidth())
             .attr('fill', function (d, i) { return rainbow(i); })
@@ -99,7 +95,11 @@ function StyleVisualization(beerStyles, parent) {
             .on('mouseout', function (e, d) {
                 d3.select(this).attr('opacity', 1);
                 tooltip.style('opacity', 0);
-            });
+            })
+          .append('a')  // Link rectangles to BJCP style descriptions
+            .attr('href', function (d) { return d.link.href; })
+            .attr('target', '_blank');  // Open in new tabs
+
         chartGroup.append('g')
             .classed('x axis', true)
             .attr('transform', 'translate(0,'+sd.chartHeight+')')
@@ -143,11 +143,7 @@ function StyleVisualization(beerStyles, parent) {
 
         chartGroup.selectAll('rect')
           .data(styles)
-          .enter()
-          .append('a')  // Link rectangles to BJCP style descriptions
-            .attr('href', function (d) { return d.link.href; })
-            .attr('target', '_blank')  // Open in new tabs
-          .append('rect')  // Can filter after this to drop rectangles
+          .enter().append('rect')  // Can filter after this to drop rectangles
             .attr('width', function (d) { return x(d[xStat].high) - x(d[xStat].low); })
             .attr('height', function (d) { return y(d[yStat].low) - y(d[yStat].high); })
             .attr('fill', function (d, i) { return rainbow(i); })
@@ -156,8 +152,7 @@ function StyleVisualization(beerStyles, parent) {
             .attr('x', function (d) { return x(d[xStat].low); })
             .attr('y', function (d) { return y(d[yStat].high); })
             .on('mouseover', function (e, d) {
-                d3.select(this.parentNode).raise();  // Raise <a> (and this)
-                d3.select(this).attr('fill', 'white');
+                d3.select(this).attr('fill', 'white').raise();
                 let svgBox = svg.node().getBoundingClientRect();
                 tooltip.text(d.name)
                     .style('opacity', 1)
@@ -167,11 +162,13 @@ function StyleVisualization(beerStyles, parent) {
                     .style('top', (window.pageYOffset + svgBox.top + margin.top + y(d[yStat].high)) + 'px');
             })
             .on('mouseout', function (e, d) {
-                d3.select(this.parentNode).lower();  // Lower <a> (and this)
                 let i = styles.findIndex(function (elt) { return elt.name === d.name; });
-                d3.select(this).attr('fill', rainbow(i));
+                d3.select(this).attr('fill', rainbow(i)).lower();
                 tooltip.style('opacity', 0);
-            });
+            })
+          .append('a')  // Link rectangles to BJCP style descriptions
+            .attr('href', function (d) { return d.link.href; })
+            .attr('target', '_blank');  // Open in new tabs
         chartGroup.append('g')
             .classed('x axis', true)
             .attr('transform', 'translate(0,'+sd.chartHeight+')')
