@@ -55,7 +55,8 @@ function StyleVisualization(beerStyles, parent) {
             .style('text-anchor', 'middle')
             .attr('x', margin.left + sd.chartWidth / 2)
             .attr('y', margin.top / 2)
-            .attr('font-weight', 'bold')
+            .style('font-weight', 'bold')
+            .style('fill', 'currentColor')
             .text(stat.toUpperCase() + ' Ranges of Selected Styles');
 
         let maxStat = d3.max(styles, function (d) { return d[stat].high; });
@@ -122,7 +123,8 @@ function StyleVisualization(beerStyles, parent) {
             .style('text-anchor', 'middle')
             .attr('x', margin.left + sd.chartWidth / 2)
             .attr('y', margin.top / 2)
-            .attr('font-weight', 'bold')
+            .style('font-weight', 'bold')
+            .style('fill', 'currentColor')
             .text(xStat.toUpperCase() + ' (x) & ' + yStat.toUpperCase() +
                 ' (y) Ranges of Selected Styles');
 
