@@ -156,6 +156,7 @@ function StyleVisualization(beerStyles, parent) {
             .attr('x', function (d) { return x(d[xStat].low); })
             .attr('y', function (d) { return y(d[yStat].high); })
             .on('mouseover', function (e, d) {
+                d3.select(this.parentNode).raise();  // Raise <a> (and this)
                 d3.select(this).attr('fill', 'white');
                 let svgBox = svg.node().getBoundingClientRect();
                 tooltip.text(d.name)
@@ -166,6 +167,7 @@ function StyleVisualization(beerStyles, parent) {
                     .style('top', (window.pageYOffset + svgBox.top + margin.top + y(d[yStat].high)) + 'px');
             })
             .on('mouseout', function (e, d) {
+                d3.select(this.parentNode).lower();  // Lower <a> (and this)
                 let i = styles.findIndex(function (elt) { return elt.name === d.name; });
                 d3.select(this).attr('fill', rainbow(i));
                 tooltip.style('opacity', 0);
