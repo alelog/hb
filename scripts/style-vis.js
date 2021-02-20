@@ -87,8 +87,7 @@ function StyleVisualization(beerStyles, parent) {
             .attr('x', function (d) { return x(d[stat].low); })
             .attr('y', function (d) { return y(d.name); } )
             .on('mouseover', function (e, d) {
-                let clr = d3.rgb(d3.select(this).style('fill'));
-                d3.select(this).attr('fill', clr.brighter(2));
+                d3.select(this).attr('opacity', .5);
                 let svgBox = svg.node().getBoundingClientRect();
                 tooltip.text(d.name)
                     .style('opacity', 1)
@@ -98,8 +97,7 @@ function StyleVisualization(beerStyles, parent) {
                     .style('top', (window.pageYOffset + svgBox.top + margin.top + y(d.name)) + 'px');
             })
             .on('mouseout', function (e, d) {
-                let i = styles.findIndex(function (elt) { return elt.name === d.name; });
-                d3.select(this).attr('fill', rainbow(i));
+                d3.select(this).attr('opacity', 1);
                 tooltip.style('opacity', 0);
             });
         chartGroup.append('g')
@@ -158,9 +156,7 @@ function StyleVisualization(beerStyles, parent) {
             .attr('x', function (d) { return x(d[xStat].low); })
             .attr('y', function (d) { return y(d[yStat].high); })
             .on('mouseover', function (e, d) {
-                // TODO: Get the hovered rectangle to go on top?
-                let clr = d3.rgb(d3.select(this).style('fill'));
-                d3.select(this).attr('fill', clr.brighter(2));
+                d3.select(this).attr('fill', 'white');
                 let svgBox = svg.node().getBoundingClientRect();
                 tooltip.text(d.name)
                     .style('opacity', 1)
