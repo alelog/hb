@@ -14,6 +14,15 @@ function StyleVisualization(beerStyles, parent) {
         }
         return acc;
     }, []);
+    let srmColors = ['#FFFFFF',  // Pure white for 0 (not used)
+        '#FFE699', '#FFD878', '#FFCA5A', '#FFBF42', '#FBB123',
+        '#F8A600', '#F39C00', '#EA8F00', '#E58500', '#DE7C00',
+        '#D77200', '#CF6900', '#CB6200', '#C35900', '#BB5100',
+        '#B54C00', '#B04500', '#A63E00', '#A13700', '#9B3200',
+        '#952D00', '#8E2900', '#882300', '#821E00', '#7B1A00',
+        '#771900', '#701400', '#6A0E00', '#660D00', '#5E0B00',
+        '#5A0A02', '#560A05', '#520907', '#4C0505', '#470606',
+        '#440607', '#3F0708', '#3B0607', '#3A070B', '#36080A'];
 
     let tooltip = d3.select('body').selectAll('div.tooltip');
     if (tooltip.empty()) {  // Keep a single copy
@@ -70,7 +79,6 @@ function StyleVisualization(beerStyles, parent) {
             .paddingInner(0.1);
         let xAxis = d3.axisBottom(x);
         let yAxis = d3.axisLeft(y).tickSizeOuter(0);
-        let rainbow = d3.scaleSequential([0, styles.length], d3.interpolateRainbow);
 
         let chartGroup = svg.append('g')
             .attr('transform', 'translate('+margin.left+','+margin.top+')');
@@ -84,7 +92,10 @@ function StyleVisualization(beerStyles, parent) {
           .append('rect')  // Can filter after this to drop rectangles
             .attr('width', function (d) { return x(d[stat].high) - x(d[stat].low); })
             .attr('height', y.bandwidth())
-            .attr('fill', function (d, i) { return rainbow(i); })
+            .attr('fill', function (d) {
+                let avgSRM = Math.round((d.srm.low + d.srm.high) / 2);
+                return srmColors[avgSRM];
+            })
             .attr('x', function (d) { return x(d[stat].low); })
             .attr('y', function (d) { return y(d.name); } )
             .on('mouseover', function (e, d) {
@@ -138,7 +149,6 @@ function StyleVisualization(beerStyles, parent) {
             .range([sd.chartHeight, 0]);
         let xAxis = d3.axisBottom(x).tickSizeOuter(0);
         let yAxis = d3.axisLeft(y).tickSizeOuter(0);
-        let rainbow = d3.scaleSequential([0, styles.length], d3.interpolateRainbow);
 
         let chartGroup = svg.append('g')
             .attr('transform', 'translate('+margin.left+','+margin.top+')');
@@ -152,7 +162,10 @@ function StyleVisualization(beerStyles, parent) {
           .append('rect')  // Can filter after this to drop rectangles
             .attr('width', function (d) { return x(d[xStat].high) - x(d[xStat].low); })
             .attr('height', function (d) { return y(d[yStat].low) - y(d[yStat].high); })
-            .attr('fill', function (d, i) { return rainbow(i); })
+            .attr('fill', function (d) {
+                let avgSRM = Math.round((d.srm.low + d.srm.high) / 2);
+                return srmColors[avgSRM];
+            })
             .attr('stroke', 'black')    // Draw a border around the boxes,
             .attr('stroke-width', '2')  // so they don't blend together
             .attr('x', function (d) { return x(d[xStat].low); })
@@ -170,8 +183,8 @@ function StyleVisualization(beerStyles, parent) {
             })
             .on('mouseout', function (e, d) {
                 d3.select(this.parentNode).lower();  // Lower <a> (and this)
-                let i = styles.findIndex(function (elt) { return elt.name === d.name; });
-                d3.select(this).attr('fill', rainbow(i));
+                let avgSRM = Math.round((d.srm.low + d.srm.high) / 2);
+                d3.select(this).attr('fill', srmColors[avgSRM]);
                 tooltip.style('opacity', 0);
             });
         chartGroup.append('g')
