@@ -49,6 +49,39 @@ function StyleVisualization(beerStyles, parent) {
                 chartWidth: chartWidth, chartHeight: chartHeight};
     }
 
+    function gradientName(d) {
+        // Not all SRM values are integers!
+        return 'gradient-' +  // Name gradient by SRM low-high range
+            srmColors[Math.floor(d.srm.low)].slice(1) + '-' +
+            srmColors[Math.ceil(d.srm.high)].slice(1);
+    }
+
+    function defineGradients(svg) {
+        // Create a linear gradient for each style's SRM low-high range
+        var srmGradients = svg.append('defs').selectAll('linearGradient')
+          .data(styles)
+          .enter().append('linearGradient')
+            .attr('id', function (d) { return gradientName(d); })
+            .attr('x1', '0%')  // Change from bottom left to top right
+            .attr('y1', '100%')
+            .attr('x2', '100%')
+            .attr('y2', '0%');
+
+        // SRM low color code at the start of gradient
+        srmGradients.append('stop')
+            .attr('offset', '0%')
+            .attr('stop-color', function (d) {
+                return srmColors[Math.floor(d.srm.low)];
+            });
+
+        // SRM high color code at the end of gradient
+        srmGradients.append('stop')
+            .attr('offset', '100%')
+            .attr('stop-color', function (d) {
+                return srmColors[Math.ceil(d.srm.high)];
+            });
+    }
+
     this.singleRange = function (stat) {
         let margin = {left: 150, right: 50, top: 40, bottom: 40};
         let sd = svgDims(margin, styles.length * 20);
@@ -67,6 +100,7 @@ function StyleVisualization(beerStyles, parent) {
             .style('font-weight', 'bold')
             .style('fill', 'currentColor')
             .text(stat.toUpperCase() + ' Ranges of Selected Styles');
+        defineGradients(svg);  // Define gradients for each SRM low-high range
 
         let maxStat = d3.max(styles, function (d) { return d[stat].high; });
         let x = d3.scaleLinear()
@@ -93,8 +127,8 @@ function StyleVisualization(beerStyles, parent) {
             .attr('width', function (d) { return x(d[stat].high) - x(d[stat].low); })
             .attr('height', y.bandwidth())
             .attr('fill', function (d) {
-                let avgSRM = Math.round((d.srm.low + d.srm.high) / 2);
-                return srmColors[avgSRM];
+                // Use predefined gradient for this style
+                return 'url(#' + gradientName(d) + ')';
             })
             .attr('x', function (d) { return x(d[stat].low); })
             .attr('y', function (d) { return y(d.name); } )
@@ -138,6 +172,7 @@ function StyleVisualization(beerStyles, parent) {
             .style('fill', 'currentColor')
             .text(xStat.toUpperCase() + ' (x) & ' + yStat.toUpperCase() +
                 ' (y) Ranges of Selected Styles');
+        defineGradients(svg);  // Define gradients for each SRM low-high range
 
         let maxXStat = d3.max(styles, function (d) { return d[xStat].high; });
         let maxYStat = d3.max(styles, function (d) { return d[yStat].high; });
@@ -163,8 +198,8 @@ function StyleVisualization(beerStyles, parent) {
             .attr('width', function (d) { return x(d[xStat].high) - x(d[xStat].low); })
             .attr('height', function (d) { return y(d[yStat].low) - y(d[yStat].high); })
             .attr('fill', function (d) {
-                let avgSRM = Math.round((d.srm.low + d.srm.high) / 2);
-                return srmColors[avgSRM];
+                // Use predefined gradient for this style
+                return 'url(#' + gradientName(d) + ')';
             })
             .attr('stroke', 'black')    // Draw a border around the boxes,
             .attr('stroke-width', '2')  // so they don't blend together
@@ -183,8 +218,7 @@ function StyleVisualization(beerStyles, parent) {
             })
             .on('mouseout', function (e, d) {
                 d3.select(this.parentNode).lower();  // Lower <a> (and this)
-                let avgSRM = Math.round((d.srm.low + d.srm.high) / 2);
-                d3.select(this).attr('fill', srmColors[avgSRM]);
+                d3.select(this).attr('fill', 'url(#' + gradientName(d) + ')');
                 tooltip.style('opacity', 0);
             });
         chartGroup.append('g')
