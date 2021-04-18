@@ -1,3 +1,5 @@
+"use strict";
+
 function StyleVisualization(beerStyles, parent) {
     let styles = beerStyles.reduce(function (acc, bs) {
         // Styles w/o stats or with exceptions in stats are high-level
@@ -5,7 +7,7 @@ function StyleVisualization(beerStyles, parent) {
         if ('stats' in bs && !('exceptions' in bs.stats)) {
             // If name has ': ', take what follows; also save the link
             let stats = {name: bs.name.split(/:\s+/).pop(), link: bs.link};
-            for (s in bs.stats) {  // Save stats: og, fg, ibu, srm, abv
+            for (let s in bs.stats) {  // Save stats: og, fg, ibu, srm, abv
                 // Convert strings to numbers; arithmetic on strings works,
                 // but comparisons don't, e.g.: "9.5" > "14.0"
                 stats[s] = {low: +bs.stats[s].low, high: +bs.stats[s].high};

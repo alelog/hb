@@ -1,3 +1,5 @@
+"use strict";
+
 const PLACEHOLDERS = ['#topnav', '#footer'];
 $(function() {  // Call this from DOM's .ready()
     for (let i = 0; i < PLACEHOLDERS.length; i++) {

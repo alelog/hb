@@ -1,3 +1,5 @@
+"use strict";
+
 /*
    Json vs XML?  Jonathan Greene (https://github.com/gthmb) has both versions
      url = 'https://cdn.jsdelivr.net/gh/gthmb/bjcp-2015-json/json/styleguide-2015.min.json';
