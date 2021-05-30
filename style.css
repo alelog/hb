@@ -5,11 +5,11 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/.
  */
- 
+
 /* === GLOBAL SETTINGS === */
 
 * {
-    box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 body {
@@ -17,229 +17,237 @@ body {
 }
 
 table {
-    border-collapse: collapse;
+  border-collapse: collapse;
 }
 
-th, td {
-    border: 1px solid #ddd;
-    padding: 5px 10px 5px 10px;
-    text-align: left;
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 5px 10px 5px 10px;
+  text-align: left;
 }
-
 
 /* === HEADER & FOOTER === */
 
 /* Style the header */
 #header {
-    background-color: #f1f1f1;
-    /* Can't set the opacity of a background.  Workaround: start with another
-       "image": a gradient from white to white with opacity 0.4.
-       For wide-enough screens, let the real image cover part of the screen
-       and repeat left-to-right.  See the bottom for updated background-size
-       for narrow screens.
-   */
-    background-image: linear-gradient(rgba(255,255,255,.33),
-                                      rgba(255,255,255,.33)),
-                      url(images/flight.jpg);
-    background-repeat: no-repeat, repeat-x;
-    background-size: cover, 40%;
-    background-position: center, center;
+  background-color: #f1f1f1;
 
-    padding: 20px;
-    text-align: center;
-    min-height: 150px;  /* Reserve enough space for images in headers w/o text */
+  /* Can't set the opacity of a background.  Workaround: start with another
+     "image": a gradient from white to white with opacity 0.4.
+     For wide-enough screens, let the real image cover part of the screen
+     and repeat left-to-right.  See the bottom for updated background-size
+     for narrow screens.
+ */
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.33), rgba(255, 255, 255, 0.33)),
+    url(images/flight.jpg);
+  background-repeat: no-repeat, repeat-x;
+  background-size: cover, 40%;
+  background-position: center, center;
+  padding: 20px;
+  text-align: center;
+  min-height: 150px;  /* Reserve enough space for images in headers w/o text */
 }
 
 /* Bring the heading and the paragraph closer together */
 #header h1 {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 #header p {
-    margin-top: 0.5em;
-    font-weight: bold;
+  margin-top: 0.5em;
+  font-weight: bold;
 }
 
 /* Style the footer */
 #footer {
-    background-color: #f1f1f1;
-    padding: 10px;
-    text-align: center;
+  background-color: #f1f1f1;
+  padding: 10px;
+  text-align: center;
 }
 
 #footer p {
-    margin: 0.33em;
+  margin: 0.33em;
 }
-
 
 /* === TOP NAVIGATION & FILTERS === */
 
 /* Style the top navigation bar */
 #topnav {
-    background-color: #333;
+  background-color: #333;
 }
 
 /* Style links under topnav */
 #topnav a {
-    display: inline-block;
-    color: #f2f2f2;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
+  display: inline-block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
 }
 
 #topnav a.disabled {
-    pointer-events: none;  /* No effect from changing cursor value */
+  pointer-events: none;  /* No effect from changing cursor value */
 }
 
 #filter-group button {
-    display: inline-block;
-    background-color: #c0c0c0;  /* Use Safari's buttonface color */
-    text-align: center;
-    padding: 14px 16px;
-    border: none;
-    margin: 2px 2px;  /* Make explicit Safari's default behavior */
-    font-weight: bold;
+  display: inline-block;
+  background-color: #c0c0c0;  /* Use Safari's buttonface color */
+  text-align: center;
+  padding: 14px 16px;
+  border: none;
+  margin: 2px 2px;  /* Make explicit Safari's default behavior */
+  font-weight: bold;
 }
 
 /* Change link color on hover */
-#topnav a:hover, #filter-group button:hover {
-    background-color: #ddd;
-    color: black;
+#topnav a:hover,
+#filter-group button:hover {
+  background-color: #ddd;
+  color: black;
 }
 
 /* The container <div> to position dropdown content */
 .dropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 /* Style dropdown content (hidden by default) */
 .dropdown-content {
-    /* Start with the content hidden */
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 1s;
-    -webkit-transition: max-height 1s;
+  /* Start with the content hidden */
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 1s;
+  -webkit-transition: max-height 1s;
+  position: absolute;
 
-    position: absolute;
-    /* Place the dropdown content below the trigger.  On my MBP,
-       in Chrome, this happens with or without the next two lines
-       but in Safari, both are necessary for correct placement. */
-    left: 0%;
-    top: 100%;
-    background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+  /* Place the dropdown content below the trigger.  On my MBP,
+     in Chrome, this happens with or without the next two lines
+     but in Safari, both are necessary for correct placement. */
+  left: 0%;
+  top: 100%;
+  background-color: #f9f9f9;
+  box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+  z-index: 1;
 }
 
 /* Style links & buttons inside dropdowns;
    overrides some of "#topnav a" and "#filter-group button" */
-#topnav .dropdown-content a, #filter-group .dropdown-content button {
-    color: black;
-    padding: 12px 16px;
-    width: 100%;
-    text-align: left;
+#topnav .dropdown-content a,
+#filter-group .dropdown-content button {
+  color: black;
+  padding: 12px 16px;
+  width: 100%;
+  text-align: left;
 }
 
 /* Change background color of dropdown links & buttons on hover;
    overrides some of "#topnav a:hover, ..." */
 #topnav .dropdown-content a:hover,
 #filter-group .dropdown-content button:hover {
-    background-color: #dadada
+  background-color: #dadada;
 }
 
 /* Show the dropdown menu on hover */
 .dropdown:hover .dropdown-content {
-    /* Can't transition to height: auto, so use a large max-height; this means
-       that the duration will be shorter and "ease" only works at the top */
-    max-height: 1000px;
+  /* Can't transition to height: auto, so use a large max-height; this means
+     that the duration will be shorter and "ease" only works at the top */
+  max-height: 1000px;
 }
 
 /* Style the selected filter (feature and detail) */
 .selected {
-    color: blue;
-    font-style: italic;
-    text-decoration: underline;
+  color: blue;
+  font-style: italic;
+  text-decoration: underline;
 }
 
 /* === MAIN CONTENT === */
 
 /* Create two unequal columns that float next to each other */
 .column {
-    float: left;
-    padding: 10px;
+  float: left;
+  padding: 10px;
 }
 
 /* Right column */
 .column.right {
-    width: 35%;
+  width: 35%;
 }
 
 /* Main column */
 .column.main {
-    width: 65%;
+  width: 65%;
 }
 
 /* Float images to the edge of the page */
 .column.right img {
-    float: right;
-    margin: 0 0 7px 15px;
+  float: right;
+  margin: 0 0 7px 15px;
 }
 
 .column.main img {
-    float: left;
-    margin: 0 15px 7px 0;
+  float: left;
+  margin: 0 15px 7px 0;
 }
 
 /* Clear floats after the columns */
-.row:after {
-    content: "";
-    display: table;
-    clear: both;
+.row::after {
+  content: "";
+  display: table;
+  clear: both;
 }
 
 /* Responsive layout for narrow screens */
 @media only screen and (max-width: 600px) {
-    /* Stack the two columns */
-    .column.right, .column.main {
-        width: 100%;
-    }
+  /* Stack the two columns */
+  .column.right,
+  .column.main {
+    width: 100%;
+  }
 }
 
 /* Fine-tune background-image size & position */
 @media only screen and (max-width: 360px) {
-    #header {  /* Make background image fill #header on tiny screens */
-        background-size: cover;
-    }
+  #header {  /* Make background image fill #header on tiny screens */
+    background-size: cover;
+  }
 }
+
 @media only screen and (min-width: 361px) and (max-width: 600px) {
-    #header {
-        background-size: cover, 70%;
-    }
+  #header {
+    background-size: cover, 70%;
+  }
 }
+
 @media only screen and (min-width: 601px) and (max-width: 900px) {
-    #header {
-        background-size: cover, 50%;
-    }
+  #header {
+    background-size: cover, 50%;
+  }
 }
+
 @media only screen and (min-width: 901px) and (max-width: 1400px) {
-    #header {
-        background-size: cover, 30%;
-    }
+  #header {
+    background-size: cover, 30%;
+  }
 }
+
 @media only screen and (min-width: 1401px) and (max-width: 2000px) {
-    #header {
-        background-size: cover, 20%;
-    }
+  #header {
+    background-size: cover, 20%;
+  }
 }
+
 @media only screen and (min-width: 2001px) and (max-width: 2800px) {
-    #header {
-        background-size: cover, 15%;
-    }
+  #header {
+    background-size: cover, 15%;
+  }
 }
+
 @media only screen and (min-width: 2801px) {
-    #header {
-        background-size: cover, 10%;
-    }
+  #header {
+    background-size: cover, 10%;
+  }
 }
