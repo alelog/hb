@@ -4,7 +4,7 @@
   "attr-value-double-quotes": true,
   "attr-value-not-empty": false,
   "attr-no-duplication": true,
-  "doctype-first": true,
+  "doctype-first": false,
   "tag-pair": true,
   "tag-self-close": false,
   "spec-char-escape": true,
@@ -21,5 +21,5 @@
   "id-class-ad-disabled": false,
   "href-abs-or-rel": false,
   "attr-unsafe-chars": true,
-  "head-script-disabled": true
+  "head-script-disabled": false
 }
